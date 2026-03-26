@@ -63,6 +63,29 @@
     "error": "An error occurred",
     "logout": "Sign out"
   },
+  "twoFactor": {
+    "sectionTitle": "Two-Factor Authentication",
+    "codeTitle": "Enter verification code",
+    "codeDescription": "A 6-digit code has been sent to your Telegram",
+    "codePlaceholder": "000000",
+    "verifyButton": "Verify",
+    "resendButton": "Resend code",
+    "codeError": {
+      "invalid": "Invalid code",
+      "expired": "Code expired. Please try again.",
+      "network": "Network error"
+    },
+    "linkTelegram": "Link Telegram",
+    "unlinkTelegram": "Unlink",
+    "telegramLinked": "Telegram linked",
+    "telegramNotLinked": "Telegram not linked",
+    "enable2fa": "Enable 2FA",
+    "disable2fa": "Disable 2FA",
+    "twoFactorEnabled": "Two-factor authentication is enabled",
+    "twoFactorDisabled": "Two-factor authentication is disabled",
+    "linkFirst": "Link your Telegram account first",
+    "openInTelegram": "Open in Telegram to link your account"
+  },
   "security": {
     "title": "Security",
     "activeSessions": "Active Sessions",

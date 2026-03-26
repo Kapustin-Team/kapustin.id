@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { apiGet, apiDelete } from '@/lib/api';
+import { apiGet, apiDelete, apiPost } from '@/lib/api';
 
 interface Session {
   id: string;
@@ -22,8 +22,27 @@ interface LoginEvent {
   createdAt: string;
 }
 
+interface TwoFactorStatus {
+  enabled: boolean;
+  telegramLinked: boolean;
+  telegramUsername?: string;
+}
+
 interface SecurityContentProps {
   dict: {
+    twoFactor: {
+      sectionTitle: string;
+      linkTelegram: string;
+      unlinkTelegram: string;
+      telegramLinked: string;
+      telegramNotLinked: string;
+      enable2fa: string;
+      disable2fa: string;
+      twoFactorEnabled: string;
+      twoFactorDisabled: string;
+      linkFirst: string;
+      openInTelegram: string;
+    };
     security: {
       title: string;
       activeSessions: string;
@@ -102,12 +121,16 @@ export function SecurityContent({ dict, locale }: SecurityContentProps) {
   const [confirmingId, setConfirmingId] = useState<string | null>(null);
   const [terminatingId, setTerminatingId] = useState<string | null>(null);
   const [terminateError, setTerminateError] = useState<string | null>(null);
+  const [twoFactorStatus, setTwoFactorStatus] = useState<TwoFactorStatus | null>(null);
+  const [telegramLinkUrl, setTelegramLinkUrl] = useState<string | null>(null);
+  const [twoFactorLoading, setTwoFactorLoading] = useState(false);
 
   useEffect(() => {
     async function load() {
-      const [sessionsRes, historyRes] = await Promise.all([
+      const [sessionsRes, historyRes, twoFactorRes] = await Promise.all([
         apiGet<{ sessions: Session[] }>('/auth/sessions'),
         apiGet<{ events: LoginEvent[] }>('/auth/login-history'),
+        apiGet<TwoFactorStatus>('/auth/2fa/status'),
       ]);
 
       if (sessionsRes.status === 401 || historyRes.status === 401) {
@@ -123,6 +146,9 @@ export function SecurityContent({ dict, locale }: SecurityContentProps) {
 
       setSessions(sessionsRes.data?.sessions ?? []);
       setEvents(historyRes.data?.events ?? []);
+      if (twoFactorRes.data) {
+        setTwoFactorStatus(twoFactorRes.data);
+      }
       setLoading(false);
     }
 
@@ -148,6 +174,39 @@ export function SecurityContent({ dict, locale }: SecurityContentProps) {
     },
     [],
   );
+
+  const handleLinkTelegram = useCallback(async () => {
+    setTwoFactorLoading(true);
+    const res = await apiPost<{ linkUrl: string }>('/auth/2fa/link-telegram', {});
+    setTwoFactorLoading(false);
+
+    if (res.error) return;
+    if (res.data?.linkUrl) {
+      setTelegramLinkUrl(res.data.linkUrl);
+    }
+  }, []);
+
+  const handleEnable2FA = useCallback(async () => {
+    setTwoFactorLoading(true);
+    const res = await apiPost('/auth/2fa/enable', {});
+    setTwoFactorLoading(false);
+
+    if (res.error) return;
+    setTwoFactorStatus((prev) =>
+      prev ? { ...prev, enabled: true } : prev
+    );
+  }, []);
+
+  const handleDisable2FA = useCallback(async () => {
+    setTwoFactorLoading(true);
+    const res = await apiPost('/auth/2fa/disable', {});
+    setTwoFactorLoading(false);
+
+    if (res.error) return;
+    setTwoFactorStatus((prev) =>
+      prev ? { ...prev, enabled: false } : prev
+    );
+  }, []);
 
   if (loading) {
     return (
@@ -181,6 +240,102 @@ export function SecurityContent({ dict, locale }: SecurityContentProps) {
           {dict.security.back}
         </a>
       </div>
+
+      {/* Two-Factor Authentication */}
+      {twoFactorStatus && (
+        <section className="flex flex-col gap-4">
+          <h2 className="text-[15px] font-semibold tracking-[-0.3px] text-[var(--fg)]">
+            {dict.twoFactor.sectionTitle}
+          </h2>
+
+          <div className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)] flex flex-col gap-3">
+            {/* Status badge */}
+            <div className="flex items-center gap-2">
+              <span
+                className={`text-[11px] tracking-[-0.2px] px-2 py-0.5 rounded-full font-medium ${
+                  twoFactorStatus.enabled
+                    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                    : 'bg-[var(--bg-tertiary)] text-[var(--fg-secondary)]'
+                }`}
+              >
+                {twoFactorStatus.enabled
+                  ? dict.twoFactor.twoFactorEnabled
+                  : dict.twoFactor.twoFactorDisabled}
+              </span>
+            </div>
+
+            {/* Telegram link status */}
+            <div className="flex items-center gap-2">
+              <span className="text-[13px] tracking-[-0.25px] text-[var(--fg-secondary)]">
+                {twoFactorStatus.telegramLinked
+                  ? dict.twoFactor.telegramLinked
+                  : dict.twoFactor.telegramNotLinked}
+              </span>
+              {twoFactorStatus.telegramLinked && twoFactorStatus.telegramUsername && (
+                <span className="text-[12px] tracking-[-0.2px] text-[var(--fg-muted)]">
+                  @{twoFactorStatus.telegramUsername}
+                </span>
+              )}
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-wrap items-center gap-2 mt-1">
+              {!twoFactorStatus.telegramLinked && (
+                <button
+                  onClick={handleLinkTelegram}
+                  disabled={twoFactorLoading}
+                  className="text-[13px] tracking-[-0.25px] font-medium text-[var(--fg)] hover:opacity-70 transition-opacity cursor-pointer disabled:opacity-50"
+                >
+                  {dict.twoFactor.linkTelegram}
+                </button>
+              )}
+
+              {twoFactorStatus.telegramLinked && !twoFactorStatus.enabled && (
+                <button
+                  onClick={handleEnable2FA}
+                  disabled={twoFactorLoading}
+                  className="text-[13px] tracking-[-0.25px] font-medium text-[var(--fg)] hover:opacity-70 transition-opacity cursor-pointer disabled:opacity-50"
+                >
+                  {dict.twoFactor.enable2fa}
+                </button>
+              )}
+
+              {twoFactorStatus.enabled && (
+                <button
+                  onClick={handleDisable2FA}
+                  disabled={twoFactorLoading}
+                  className="text-[13px] tracking-[-0.25px] font-medium text-red-500 hover:text-red-600 transition-colors cursor-pointer disabled:opacity-50"
+                >
+                  {dict.twoFactor.disable2fa}
+                </button>
+              )}
+
+              {!twoFactorStatus.telegramLinked && (
+                <span className="text-[12px] tracking-[-0.2px] text-[var(--fg-muted)]">
+                  {dict.twoFactor.linkFirst}
+                </span>
+              )}
+            </div>
+
+            {/* Telegram deep link URL */}
+            {telegramLinkUrl && (
+              <div className="mt-2 p-3 rounded-lg bg-[var(--bg)] border border-[var(--border-color)]">
+                <p className="text-[12px] text-[var(--fg-secondary)] tracking-[-0.2px] mb-2">
+                  {dict.twoFactor.openInTelegram}
+                </p>
+                <a
+                  href={telegramLinkUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[13px] tracking-[-0.25px] text-blue-500 hover:text-blue-600 break-all"
+                >
+                  {telegramLinkUrl}
+                </a>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Active Sessions */}
       <section className="flex flex-col gap-4">

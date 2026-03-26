@@ -63,6 +63,29 @@
     "error": "Произошла ошибка",
     "logout": "Выйти"
   },
+  "twoFactor": {
+    "sectionTitle": "Двухфакторная аутентификация",
+    "codeTitle": "Введите код подтверждения",
+    "codeDescription": "6-значный код отправлен в ваш Telegram",
+    "codePlaceholder": "000000",
+    "verifyButton": "Подтвердить",
+    "resendButton": "Отправить повторно",
+    "codeError": {
+      "invalid": "Неверный код",
+      "expired": "Код истёк. Попробуйте ещё раз.",
+      "network": "Ошибка сети"
+    },
+    "linkTelegram": "Привязать Telegram",
+    "unlinkTelegram": "Отвязать",
+    "telegramLinked": "Telegram привязан",
+    "telegramNotLinked": "Telegram не привязан",
+    "enable2fa": "Включить 2FA",
+    "disable2fa": "Выключить 2FA",
+    "twoFactorEnabled": "Двухфакторная аутентификация включена",
+    "twoFactorDisabled": "Двухфакторная аутентификация выключена",
+    "linkFirst": "Сначала привяжите Telegram",
+    "openInTelegram": "Откройте в Telegram, чтобы привязать аккаунт"
+  },
   "security": {
     "title": "Безопасность",
     "activeSessions": "Активные сессии",

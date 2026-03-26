@@ -1,9 +1,8 @@
 import { getDictionary } from '@/i18n/getDictionary';
 import type { Locale } from '@/i18n/config';
 import { locales } from '@/i18n/config';
-import { LoginForm } from '@/components/LoginForm';
+import { VerifyTwoFactorForm } from '@/components/VerifyTwoFactorForm';
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -16,10 +15,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const dict = await getDictionary(locale as Locale);
-  return { title: `${dict.login.title} — Kapustin ID` };
+  return { title: `${dict.twoFactor.codeTitle} — Kapustin ID` };
 }
 
-export default async function LoginPage({
+export default async function VerifyTwoFactorPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -29,9 +28,7 @@ export default async function LoginPage({
 
   return (
     <main className="flex min-h-screen items-center justify-center px-4">
-      <Suspense>
-        <LoginForm dict={{ ...dict.login, twoFactor: dict.twoFactor }} locale={locale} />
-      </Suspense>
+      <VerifyTwoFactorForm dict={dict} locale={locale} />
     </main>
   );
 }

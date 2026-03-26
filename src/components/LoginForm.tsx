@@ -8,6 +8,19 @@ import { apiPost } from '@/lib/api';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
+interface TwoFactorDict {
+  codeTitle: string;
+  codeDescription: string;
+  codePlaceholder: string;
+  verifyButton: string;
+  resendButton: string;
+  codeError: {
+    invalid: string;
+    expired: string;
+    network: string;
+  };
+}
+
 interface LoginDict {
   title: string;
   email: string;
@@ -23,6 +36,7 @@ interface LoginDict {
     network: string;
     generic: string;
   };
+  twoFactor?: TwoFactorDict;
 }
 
 interface LoginFormProps {
@@ -39,6 +53,8 @@ export function LoginForm({ dict, locale }: LoginFormProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [requiresTwoFactor, setRequiresTwoFactor] = useState(false);
+  const [code, setCode] = useState('');
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -46,7 +62,7 @@ export function LoginForm({ dict, locale }: LoginFormProps) {
     setLoading(true);
 
     try {
-      const result = await apiPost('/auth/login', { email, password });
+      const result = await apiPost<{ requiresTwoFactor?: boolean }>('/auth/login', { email, password });
 
       if (result.status === 0) {
         setError(dict.error.network);
@@ -55,6 +71,11 @@ export function LoginForm({ dict, locale }: LoginFormProps) {
 
       if (result.error) {
         setError(result.error);
+        return;
+      }
+
+      if (result.data?.requiresTwoFactor) {
+        setRequiresTwoFactor(true);
         return;
       }
 
@@ -68,9 +89,87 @@ export function LoginForm({ dict, locale }: LoginFormProps) {
     }
   }
 
+  async function handleVerifyCode(e: FormEvent) {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    const twoFactor = dict.twoFactor;
+
+    try {
+      const result = await apiPost('/auth/2fa/verify', { code });
+
+      if (result.status === 0) {
+        setError(twoFactor?.codeError.network || dict.error.network);
+        return;
+      }
+
+      if (result.error) {
+        if (result.error.toLowerCase().includes('expired')) {
+          setError(twoFactor?.codeError.expired || result.error);
+        } else {
+          setError(twoFactor?.codeError.invalid || result.error);
+        }
+        return;
+      }
+
+      const destination = returnTo || `/${locale}/`;
+      router.push(destination);
+    } catch {
+      setError(twoFactor?.codeError.network || dict.error.generic);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function handleSocialLogin(provider: 'google' | 'yandex') {
     const returnPath = returnTo || `/${locale}/`;
     window.location.href = `${API_BASE_URL}/auth/${provider}?returnTo=${encodeURIComponent(returnPath)}`;
+  }
+
+  if (requiresTwoFactor && dict.twoFactor) {
+    const twoFactor = dict.twoFactor;
+    return (
+      <div className="w-full max-w-[360px] mx-auto">
+        <h1 className="text-[24px] font-semibold tracking-[-0.5px] text-[var(--fg)] mb-2">
+          {twoFactor.codeTitle}
+        </h1>
+        <p className="text-[13px] text-[var(--fg-secondary)] tracking-[-0.25px] mb-8">
+          {twoFactor.codeDescription}
+        </p>
+
+        {error && (
+          <div
+            role="alert"
+            className="mb-4 px-4 py-3 text-[13px] tracking-[-0.25px] rounded-2xl bg-[var(--color-error-bg,rgba(220,38,38,0.08))] text-[var(--color-error)] border border-[var(--color-error)]"
+          >
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleVerifyCode} className="flex flex-col gap-4">
+          <Input
+            label={twoFactor.codeTitle}
+            type="text"
+            value={code}
+            onChange={(e) => {
+              const v = e.target.value.replace(/\D/g, '').slice(0, 6);
+              setCode(v);
+            }}
+            placeholder={twoFactor.codePlaceholder}
+            maxLength={6}
+            pattern="[0-9]{6}"
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            autoFocus
+            required
+          />
+          <Button type="submit" loading={loading} className="mt-2 w-full" disabled={code.length !== 6}>
+            {twoFactor.verifyButton}
+          </Button>
+        </form>
+      </div>
+    );
   }
 
   return (
