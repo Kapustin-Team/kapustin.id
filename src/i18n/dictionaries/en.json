@@ -8,8 +8,10 @@
     "yandexButton": "Continue with Yandex",
     "noAccount": "Don't have an account?",
     "registerLink": "Create account",
+    "orSocial": "or",
     "error": {
       "invalidCredentials": "Invalid email or password",
+      "network": "Network error. Please try again.",
       "generic": "Something went wrong. Please try again."
     }
   },
@@ -17,12 +19,14 @@
     "title": "Create Account",
     "email": "Email",
     "name": "Name",
+    "namePlaceholder": "Optional",
     "password": "Password",
     "submit": "Create Account",
     "hasAccount": "Already have an account?",
     "loginLink": "Sign in",
     "error": {
       "emailTaken": "This email is already registered",
+      "network": "Network error. Please try again.",
       "generic": "Something went wrong. Please try again."
     }
   },
@@ -32,6 +36,11 @@
     "denyButton": "Deny",
     "requestingAccess": "is requesting access to your account",
     "scope": "Permissions requested"
+  },
+  "home": {
+    "welcome": "Welcome",
+    "loggedInAs": "You are signed in as",
+    "goToLogin": "Sign in to your account"
   },
   "common": {
     "loading": "Loading...",

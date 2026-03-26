@@ -1,5 +1,6 @@
 import { getDictionary } from '@/i18n/getDictionary';
 import type { Locale } from '@/i18n/config';
+import { HomeContent } from '@/components/HomeContent';
 
 export default async function HomePage({
   params,
@@ -10,13 +11,8 @@ export default async function HomePage({
   const dict = await getDictionary(locale as Locale);
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight">Kapustin ID</h1>
-        <p className="mt-2 text-[var(--fg-secondary)]">
-          {dict.common.loading}
-        </p>
-      </div>
+    <main className="flex min-h-screen items-center justify-center px-4">
+      <HomeContent dict={dict} locale={locale} />
     </main>
   );
 }

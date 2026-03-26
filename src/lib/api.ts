@@ -26,7 +26,7 @@ async function apiFetch<T>(
 
     if (!response.ok) {
       return {
-        error: data?.message || data?.error || `Request failed with status ${response.status}`,
+        error: data?.error_description || data?.message || data?.error || `Request failed with status ${response.status}`,
         status: response.status,
       };
     }
