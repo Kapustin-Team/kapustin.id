@@ -52,3 +52,10 @@ export async function apiGet<T>(path: string): Promise<ApiResponse<T>> {
     method: 'GET',
   });
 }
+
+export async function apiPatch<T>(path: string, body: unknown): Promise<ApiResponse<T>> {
+  return apiFetch<T>(path, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+  });
+}

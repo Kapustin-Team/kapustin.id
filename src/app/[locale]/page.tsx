@@ -11,7 +11,7 @@ export default async function HomePage({
   const dict = await getDictionary(locale as Locale);
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
+    <main className="flex min-h-screen items-start justify-center px-4">
       <HomeContent dict={dict} locale={locale} />
     </main>
   );

@@ -45,8 +45,21 @@
     "loggedInAs": "You are signed in as",
     "goToLogin": "Sign in to your account"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "projects": "Projects by Kapustin"
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Name",
+    "imageUrl": "Avatar URL",
+    "save": "Save",
+    "saved": "Saved",
+    "error": "Failed to save"
+  },
   "common": {
     "loading": "Loading...",
-    "error": "An error occurred"
+    "error": "An error occurred",
+    "logout": "Sign out"
   }
 }
