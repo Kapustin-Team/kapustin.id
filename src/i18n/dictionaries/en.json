@@ -1,0 +1,40 @@
+{
+  "login": {
+    "title": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign In",
+    "googleButton": "Continue with Google",
+    "yandexButton": "Continue with Yandex",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Create account",
+    "error": {
+      "invalidCredentials": "Invalid email or password",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "register": {
+    "title": "Create Account",
+    "email": "Email",
+    "name": "Name",
+    "password": "Password",
+    "submit": "Create Account",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Sign in",
+    "error": {
+      "emailTaken": "This email is already registered",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "authorize": {
+    "title": "Authorization Request",
+    "allowButton": "Allow",
+    "denyButton": "Deny",
+    "requestingAccess": "is requesting access to your account",
+    "scope": "Permissions requested"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred"
+  }
+}

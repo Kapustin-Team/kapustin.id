@@ -1,0 +1,40 @@
+{
+  "login": {
+    "title": "Вход",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "submit": "Войти",
+    "googleButton": "Продолжить с Google",
+    "yandexButton": "Продолжить с Яндекс",
+    "noAccount": "Нет аккаунта?",
+    "registerLink": "Создать аккаунт",
+    "error": {
+      "invalidCredentials": "Неверный email или пароль",
+      "generic": "Что-то пошло не так. Попробуйте ещё раз."
+    }
+  },
+  "register": {
+    "title": "Регистрация",
+    "email": "Электронная почта",
+    "name": "Имя",
+    "password": "Пароль",
+    "submit": "Создать аккаунт",
+    "hasAccount": "Уже есть аккаунт?",
+    "loginLink": "Войти",
+    "error": {
+      "emailTaken": "Этот email уже зарегистрирован",
+      "generic": "Что-то пошло не так. Попробуйте ещё раз."
+    }
+  },
+  "authorize": {
+    "title": "Запрос авторизации",
+    "allowButton": "Разрешить",
+    "denyButton": "Отклонить",
+    "requestingAccess": "запрашивает доступ к вашему аккаунту",
+    "scope": "Запрашиваемые разрешения"
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Произошла ошибка"
+  }
+}
