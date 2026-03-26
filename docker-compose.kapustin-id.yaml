@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    image: ghcr.io/dmitriikapustin/kapustin.id:latest
+    container_name: kapustin_id_app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.kapustin.id}
