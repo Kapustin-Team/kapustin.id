@@ -1,16 +1,30 @@
 [
   {
-    "id": "f819f11c",
+    "id": "3eed7df1",
     "label": "api-server",
     "command": "cd /Users/dmitriikapustin/Documents/GitHub/api.kapustin.id && npm run dev",
     "cwd": "/Users/dmitriikapustin/Documents/GitHub/kapustin.id",
-    "ownerSessionFile": "/Users/dmitriikapustin/.gsd/sessions/--Users-dmitriikapustin-Documents-GitHub-kapustin.id--/2026-03-26T08-05-50-713Z_a3424aee-572b-4417-8ceb-935b18c5bd71.jsonl",
+    "ownerSessionFile": "/Users/dmitriikapustin/.gsd/sessions/--Users-dmitriikapustin-Documents-GitHub-kapustin.id--/2026-03-26T08-09-36-859Z_c21129ef-334f-4f53-a231-da489957f92b.jsonl",
     "persistAcrossSessions": false,
-    "startedAt": 1774512478097,
+    "startedAt": 1774512626795,
     "processType": "server",
-    "group": null,
+    "group": "dev-servers",
     "readyPattern": null,
     "readyPort": 3001,
-    "pid": 92417
+    "pid": 94420
+  },
+  {
+    "id": "4b4582d9",
+    "label": "frontend-server",
+    "command": "cd /Users/dmitriikapustin/Documents/GitHub/kapustin.id && npm run dev -- -p 3000",
+    "cwd": "/Users/dmitriikapustin/Documents/GitHub/kapustin.id",
+    "ownerSessionFile": "/Users/dmitriikapustin/.gsd/sessions/--Users-dmitriikapustin-Documents-GitHub-kapustin.id--/2026-03-26T08-09-36-859Z_c21129ef-334f-4f53-a231-da489957f92b.jsonl",
+    "persistAcrossSessions": false,
+    "startedAt": 1774512635597,
+    "processType": "server",
+    "group": "dev-servers",
+    "readyPattern": null,
+    "readyPort": 3000,
+    "pid": 94551
   }
 ]
