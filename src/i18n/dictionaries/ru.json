@@ -43,7 +43,8 @@
   "home": {
     "welcome": "Добро пожаловать",
     "loggedInAs": "Вы вошли как",
-    "goToLogin": "Войти в аккаунт"
+    "goToLogin": "Войти в аккаунт",
+    "securityLink": "Безопасность"
   },
   "dashboard": {
     "title": "Панель управления",
@@ -61,5 +62,23 @@
     "loading": "Загрузка...",
     "error": "Произошла ошибка",
     "logout": "Выйти"
+  },
+  "security": {
+    "title": "Безопасность",
+    "activeSessions": "Активные сессии",
+    "currentSession": "Текущая сессия",
+    "terminateSession": "Завершить",
+    "terminateConfirm": "Вы уверены?",
+    "loginHistory": "История входов",
+    "ip": "IP адрес",
+    "device": "Устройство",
+    "lastActive": "Последняя активность",
+    "loggedIn": "Вход выполнен",
+    "provider": "Способ",
+    "success": "Успех",
+    "failed": "Неудача",
+    "noSessions": "Нет активных сессий",
+    "noHistory": "Нет истории входов",
+    "back": "Назад к панели"
   }
 }

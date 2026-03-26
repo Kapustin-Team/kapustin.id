@@ -19,6 +19,7 @@ interface HomeContentProps {
       welcome: string;
       loggedInAs: string;
       goToLogin: string;
+      securityLink: string;
     };
     dashboard: {
       title: string;
@@ -154,8 +155,14 @@ export function HomeContent({ dict, locale }: HomeContentProps) {
         </div>
       </section>
 
-      {/* Logout */}
-      <div className="pt-2">
+      {/* Security & Logout */}
+      <div className="pt-2 flex items-center gap-4">
+        <a
+          href={`/${locale}/security`}
+          className="text-[13px] tracking-[-0.25px] text-[var(--fg-secondary)] hover:text-[var(--fg)] transition-colors duration-[var(--transition-fast)]"
+        >
+          {dict.home.securityLink}
+        </a>
         <button
           onClick={handleLogout}
           className="text-[13px] tracking-[-0.25px] text-[var(--fg-secondary)] hover:text-[var(--fg)] transition-colors duration-[var(--transition-fast)] cursor-pointer"

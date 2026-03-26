@@ -43,7 +43,8 @@
   "home": {
     "welcome": "Welcome",
     "loggedInAs": "You are signed in as",
-    "goToLogin": "Sign in to your account"
+    "goToLogin": "Sign in to your account",
+    "securityLink": "Security"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -61,5 +62,23 @@
     "loading": "Loading...",
     "error": "An error occurred",
     "logout": "Sign out"
+  },
+  "security": {
+    "title": "Security",
+    "activeSessions": "Active Sessions",
+    "currentSession": "Current session",
+    "terminateSession": "Terminate",
+    "terminateConfirm": "Are you sure?",
+    "loginHistory": "Login History",
+    "ip": "IP Address",
+    "device": "Device",
+    "lastActive": "Last Active",
+    "loggedIn": "Logged in",
+    "provider": "Method",
+    "success": "Success",
+    "failed": "Failed",
+    "noSessions": "No active sessions",
+    "noHistory": "No login history",
+    "back": "Back to dashboard"
   }
 }

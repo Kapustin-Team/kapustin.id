@@ -59,3 +59,9 @@ export async function apiPatch<T>(path: string, body: unknown): Promise<ApiRespo
     body: JSON.stringify(body),
   });
 }
+
+export async function apiDelete<T>(path: string): Promise<ApiResponse<T>> {
+  return apiFetch<T>(path, {
+    method: 'DELETE',
+  });
+}
