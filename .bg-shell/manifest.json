@@ -1,16 +1,1 @@
-[
-  {
-    "id": "4850ccb0",
-    "label": "api-server",
-    "command": "cd /Users/dmitriikapustin/Documents/GitHub/api.kapustin.id && npm run dev",
-    "cwd": "/Users/dmitriikapustin/Documents/GitHub/kapustin.id",
-    "ownerSessionFile": "/Users/dmitriikapustin/.gsd/sessions/--Users-dmitriikapustin-Documents-GitHub-kapustin.id--/2026-03-26T08-54-59-174Z_f4ab3a20-3d32-4858-915f-daaf0426c2bd.jsonl",
-    "persistAcrossSessions": false,
-    "startedAt": 1774515414004,
-    "processType": "server",
-    "group": "s06-servers",
-    "readyPattern": null,
-    "readyPort": 3001,
-    "pid": 32200
-  }
-]
+[]
