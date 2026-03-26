@@ -6,4 +6,11 @@ README.md
 .next
 .git
 .gsd
+.gsd.lock
 .env*
+.artifacts
+.bg-shell
+.DS_Store
+test-client
+scripts
+tsconfig.tsbuildinfo
