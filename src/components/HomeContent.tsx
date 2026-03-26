@@ -20,6 +20,7 @@ interface HomeContentProps {
       loggedInAs: string;
       goToLogin: string;
       securityLink: string;
+      settingsLink: string;
     };
     dashboard: {
       title: string;
@@ -73,10 +74,15 @@ export function HomeContent({ dict, locale }: HomeContentProps) {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    apiGet<{ user: User }>('/auth/me')
+    apiGet<{ user: User & { theme?: string; locale?: string } }>('/auth/me')
       .then((result) => {
         if (result.data?.user) {
           setUser(result.data.user);
+          // Sync theme cookie from API response for cross-device consistency
+          const userTheme = (result.data.user as User & { theme?: string }).theme;
+          if (userTheme) {
+            document.cookie = `theme=${encodeURIComponent(userTheme)};max-age=${365 * 86400};path=/;SameSite=Lax`;
+          }
         }
       })
       .catch(() => {
@@ -162,6 +168,12 @@ export function HomeContent({ dict, locale }: HomeContentProps) {
           className="text-[13px] tracking-[-0.25px] text-[var(--fg-secondary)] hover:text-[var(--fg)] transition-colors duration-[var(--transition-fast)]"
         >
           {dict.home.securityLink}
+        </a>
+        <a
+          href={`/${locale}/settings`}
+          className="text-[13px] tracking-[-0.25px] text-[var(--fg-secondary)] hover:text-[var(--fg)] transition-colors duration-[var(--transition-fast)]"
+        >
+          {dict.home.settingsLink}
         </a>
         <button
           onClick={handleLogout}

@@ -44,7 +44,8 @@
     "welcome": "Welcome",
     "loggedInAs": "You are signed in as",
     "goToLogin": "Sign in to your account",
-    "securityLink": "Security"
+    "securityLink": "Security",
+    "settingsLink": "Settings"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -85,6 +86,30 @@
     "twoFactorDisabled": "Two-factor authentication is disabled",
     "linkFirst": "Link your Telegram account first",
     "openInTelegram": "Open in Telegram to link your account"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": {
+      "label": "Language",
+      "ru": "Russian",
+      "en": "English"
+    },
+    "accounts": {
+      "title": "Linked Accounts",
+      "unlink": "Unlink",
+      "unlinkConfirm": "Are you sure you want to unlink this account?",
+      "lastMethodWarning": "This is your last sign-in method. You cannot unlink it.",
+      "noAccounts": "No linked accounts",
+      "twoFactorWarning": "Unlinking Telegram will disable two-factor authentication."
+    },
+    "newDeviceNotification": "Notify on new device login",
+    "back": "Back to dashboard"
   },
   "security": {
     "title": "Security",

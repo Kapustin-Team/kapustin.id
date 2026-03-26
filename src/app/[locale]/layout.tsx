@@ -28,6 +28,13 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={`${onest.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var m=document.cookie.match(/(?:^|;\\s*)theme=([^;]*)/);var t=m?m[1]:'system';if(t==='system'){t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="min-h-full" style={{ fontFamily: 'var(--font-sans)' }}>
         {children}
       </body>

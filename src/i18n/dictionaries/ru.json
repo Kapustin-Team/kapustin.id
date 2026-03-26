@@ -44,7 +44,8 @@
     "welcome": "Добро пожаловать",
     "loggedInAs": "Вы вошли как",
     "goToLogin": "Войти в аккаунт",
-    "securityLink": "Безопасность"
+    "securityLink": "Безопасность",
+    "settingsLink": "Настройки"
   },
   "dashboard": {
     "title": "Панель управления",
@@ -85,6 +86,30 @@
     "twoFactorDisabled": "Двухфакторная аутентификация выключена",
     "linkFirst": "Сначала привяжите Telegram",
     "openInTelegram": "Откройте в Telegram, чтобы привязать аккаунт"
+  },
+  "settings": {
+    "title": "Настройки",
+    "theme": {
+      "label": "Тема",
+      "light": "Светлая",
+      "dark": "Тёмная",
+      "system": "Системная"
+    },
+    "language": {
+      "label": "Язык",
+      "ru": "Русский",
+      "en": "Английский"
+    },
+    "accounts": {
+      "title": "Привязанные аккаунты",
+      "unlink": "Отвязать",
+      "unlinkConfirm": "Вы уверены, что хотите отвязать этот аккаунт?",
+      "lastMethodWarning": "Это ваш последний способ входа. Его нельзя отвязать.",
+      "noAccounts": "Нет привязанных аккаунтов",
+      "twoFactorWarning": "Отвязка Telegram отключит двухфакторную аутентификацию."
+    },
+    "newDeviceNotification": "Уведомлять о входе с нового устройства",
+    "back": "Назад к панели"
   },
   "security": {
     "title": "Безопасность",
