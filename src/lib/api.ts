@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 interface ApiResponse<T = unknown> {
   data?: T;
@@ -14,6 +14,7 @@ async function apiFetch<T>(
     const response = await fetch(`${API_BASE_URL}${path}`, {
       ...options,
       credentials: 'include',
+      signal: options.signal ?? AbortSignal.timeout(15_000),
       headers: {
         'Content-Type': 'application/json',
         ...options.headers,

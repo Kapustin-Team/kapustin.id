@@ -1,8 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+import { API_BASE_URL } from '@/lib/api';
 
 interface AuthorizeDict {
   title: string;

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { apiGet, apiPost } from '@/lib/api';
 import { ProfileForm } from '@/components/ProfileForm';
 import { ProjectCard } from '@/components/ProjectCard';
@@ -45,9 +46,11 @@ interface HomeContentProps {
 function UserAvatar({ user }: { user: User }) {
   if (user.image) {
     return (
-      <img
+      <Image
         src={user.image}
         alt={user.name || user.email}
+        width={64}
+        height={64}
         className="w-16 h-16 rounded-full object-cover border-2 border-[var(--border-color)]"
       />
     );
