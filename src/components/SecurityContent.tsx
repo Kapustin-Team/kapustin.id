@@ -38,6 +38,9 @@ interface SecurityContentProps {
       telegramNotLinked: string;
       enable2fa: string;
       disable2fa: string;
+      confirmDisable2fa?: string;
+      confirmYes?: string;
+      confirmCancel?: string;
       twoFactorEnabled: string;
       twoFactorDisabled: string;
       linkFirst: string;
@@ -124,6 +127,7 @@ export function SecurityContent({ dict, locale }: SecurityContentProps) {
   const [twoFactorStatus, setTwoFactorStatus] = useState<TwoFactorStatus | null>(null);
   const [telegramLinkUrl, setTelegramLinkUrl] = useState<string | null>(null);
   const [twoFactorLoading, setTwoFactorLoading] = useState(false);
+  const [confirmDisable2FA, setConfirmDisable2FA] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -197,10 +201,11 @@ export function SecurityContent({ dict, locale }: SecurityContentProps) {
     );
   }, []);
 
-  const handleDisable2FA = useCallback(async () => {
+  const handleDisable2FAConfirmed = useCallback(async () => {
     setTwoFactorLoading(true);
     const res = await apiPost('/auth/2fa/disable', {});
     setTwoFactorLoading(false);
+    setConfirmDisable2FA(false);
 
     if (res.error) return;
     setTwoFactorStatus((prev) =>
@@ -294,14 +299,35 @@ export function SecurityContent({ dict, locale }: SecurityContentProps) {
                 </button>
               )}
 
-              {twoFactorStatus.enabled && (
+              {twoFactorStatus.enabled && !confirmDisable2FA && (
                 <button
-                  onClick={handleDisable2FA}
+                  onClick={() => setConfirmDisable2FA(true)}
                   disabled={twoFactorLoading}
                   className="text-[13px] tracking-[-0.25px] font-medium text-red-500 hover:text-red-600 transition-colors cursor-pointer disabled:opacity-50"
                 >
                   {dict.twoFactor.disable2fa}
                 </button>
+              )}
+
+              {twoFactorStatus.enabled && confirmDisable2FA && (
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span className="text-[12px] text-[var(--fg-secondary)] tracking-[-0.2px]">
+                    {dict.twoFactor.confirmDisable2fa ?? 'Confirm disable 2FA?'}
+                  </span>
+                  <button
+                    onClick={handleDisable2FAConfirmed}
+                    disabled={twoFactorLoading}
+                    className="text-[12px] tracking-[-0.2px] font-medium text-red-500 hover:text-red-600 transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    {twoFactorLoading ? '...' : (dict.twoFactor.confirmYes ?? 'Yes, disable')}
+                  </button>
+                  <button
+                    onClick={() => setConfirmDisable2FA(false)}
+                    className="text-[12px] tracking-[-0.2px] text-[var(--fg-secondary)] hover:text-[var(--fg)] transition-colors cursor-pointer"
+                  >
+                    {dict.twoFactor.confirmCancel ?? 'Cancel'}
+                  </button>
+                </div>
               )}
 
               {!twoFactorStatus.telegramLinked && (

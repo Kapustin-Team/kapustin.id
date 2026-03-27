@@ -50,7 +50,19 @@ export function AuthorizeForm({
   }
 
   function handleDeny() {
-    const denyUrl = new URL(redirectUri);
+    // Guard: only redirect to redirectUri if it looks like a valid HTTP(S) URL
+    // to prevent open redirect in case the backend doesn't validate it
+    let denyUrl: URL;
+    try {
+      denyUrl = new URL(redirectUri);
+      if (denyUrl.protocol !== 'https:' && denyUrl.protocol !== 'http:') {
+        // Unexpected protocol — do not redirect, just close / show message
+        return;
+      }
+    } catch {
+      // Invalid URL — bail silently
+      return;
+    }
     denyUrl.searchParams.set('error', 'access_denied');
     denyUrl.searchParams.set('state', state);
     window.location.href = denyUrl.toString();

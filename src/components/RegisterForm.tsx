@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { apiPost } from '@/lib/api';
+import { normalizeApiError } from '@/lib/errors';
 
 interface RegisterDict {
   title: string;
@@ -54,7 +55,7 @@ export function RegisterForm({ dict, locale }: RegisterFormProps) {
       }
 
       if (result.error) {
-        setError(result.error);
+        setError(normalizeApiError(result.error, dict.error.generic));
         return;
       }
 

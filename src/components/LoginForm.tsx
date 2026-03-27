@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { apiPost, API_BASE_URL } from '@/lib/api';
+import { normalizeApiError } from '@/lib/errors';
 
 interface TwoFactorDict {
   codeTitle: string;
@@ -45,7 +46,17 @@ interface LoginFormProps {
 export function LoginForm({ dict, locale }: LoginFormProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const returnTo = searchParams.get('returnTo');
+  const rawReturnTo = searchParams.get('returnTo');
+
+  // Guard against open redirect — only allow relative paths on this origin
+  function sanitizeReturnTo(url: string | null, fallback: string): string {
+    if (!url) return fallback;
+    // Must start with / but not // (protocol-relative = open redirect)
+    if (url.startsWith('/') && !url.startsWith('//')) return url;
+    return fallback;
+  }
+
+  const returnTo = sanitizeReturnTo(rawReturnTo, `/${locale}/`);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -68,7 +79,7 @@ export function LoginForm({ dict, locale }: LoginFormProps) {
       }
 
       if (result.error) {
-        setError(result.error);
+        setError(normalizeApiError(result.error, dict.error.generic));
         return;
       }
 
@@ -104,9 +115,9 @@ export function LoginForm({ dict, locale }: LoginFormProps) {
 
       if (result.error) {
         if (result.error.toLowerCase().includes('expired')) {
-          setError(twoFactor?.codeError.expired || result.error);
+          setError(twoFactor?.codeError.expired || normalizeApiError(result.error, dict.error.generic));
         } else {
-          setError(twoFactor?.codeError.invalid || result.error);
+          setError(twoFactor?.codeError.invalid || normalizeApiError(result.error, dict.error.generic));
         }
         return;
       }

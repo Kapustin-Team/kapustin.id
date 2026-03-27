@@ -33,7 +33,8 @@ export function AuthenticatedLayout({ dict, locale, children }: AuthenticatedLay
           // Sync theme cookie
           const userTheme = result.data.user.theme;
           if (userTheme) {
-            document.cookie = `theme=${encodeURIComponent(userTheme)};max-age=${365 * 86400};path=/;SameSite=Lax`;
+            const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+            document.cookie = `theme=${encodeURIComponent(userTheme)};max-age=${365 * 86400};path=/;SameSite=Lax${secure}`;
           }
         }
       })
