@@ -1,6 +1,6 @@
 import { getDictionary } from '@/i18n/getDictionary';
 import type { Locale } from '@/i18n/config';
-import { SettingsContent } from '@/components/SettingsContent';
+import { SettingsPageContent } from '@/components/SettingsPageContent';
 
 export default async function SettingsPage({
   params,
@@ -10,9 +10,5 @@ export default async function SettingsPage({
   const { locale } = await params;
   const dict = await getDictionary(locale as Locale);
 
-  return (
-    <main className="flex min-h-screen items-start justify-center px-4">
-      <SettingsContent dict={dict} locale={locale} />
-    </main>
-  );
+  return <SettingsPageContent dict={dict} locale={locale} />;
 }

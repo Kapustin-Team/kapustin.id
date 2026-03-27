@@ -210,7 +210,7 @@ export function SecurityContent({ dict, locale }: SecurityContentProps) {
 
   if (loading) {
     return (
-      <div className="w-full max-w-[640px] py-12 text-center">
+      <div className="w-full py-8 text-center">
         <p className="text-[var(--fg-secondary)] text-[13px] tracking-[-0.25px]">
           {dict.common.loading}
         </p>
@@ -220,25 +220,19 @@ export function SecurityContent({ dict, locale }: SecurityContentProps) {
 
   if (error) {
     return (
-      <div className="w-full max-w-[640px] py-12 text-center">
+      <div className="w-full py-8 text-center">
         <p className="text-red-500 text-[13px] tracking-[-0.25px]">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-[640px] flex flex-col gap-8 py-12">
+    <div className="w-full flex flex-col gap-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div>
         <h1 className="text-[20px] font-semibold tracking-[-0.4px] text-[var(--fg)]">
           {dict.security.title}
         </h1>
-        <a
-          href={`/${locale}`}
-          className="text-[13px] tracking-[-0.25px] text-[var(--fg-secondary)] hover:text-[var(--fg)] transition-colors duration-[var(--transition-fast)]"
-        >
-          {dict.security.back}
-        </a>
       </div>
 
       {/* Two-Factor Authentication */}

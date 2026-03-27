@@ -164,7 +164,7 @@ export function SettingsContent({ dict, locale }: SettingsContentProps) {
   };
 
   return (
-    <div className="w-full max-w-[640px] flex flex-col gap-8 py-12">
+    <div className="w-full flex flex-col gap-8">
       {/* Header */}
       <h1 className="text-[20px] font-semibold tracking-[-0.4px] text-[var(--fg)]">
         {dict.settings.title}
@@ -274,16 +274,6 @@ export function SettingsContent({ dict, locale }: SettingsContentProps) {
           </div>
         )}
       </section>
-
-      {/* Back Link */}
-      <div className="pt-2">
-        <a
-          href={`/${locale}`}
-          className="text-[13px] tracking-[-0.25px] text-[var(--fg-secondary)] hover:text-[var(--fg)] transition-colors duration-[var(--transition-fast)]"
-        >
-          {dict.settings.back}
-        </a>
-      </div>
     </div>
   );
 }
