@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { apiGet } from '@/lib/api';
 import { AppSidebar } from '@/components/AppSidebar';
+import { AppTopBar } from '@/components/AppTopBar';
 import { SettingsContent } from '@/components/SettingsContent';
 import { Spinner } from '@/components/ui/Spinner';
 
@@ -50,11 +51,16 @@ export function SettingsPageContent({ dict, locale }: SettingsPageContentProps) 
   const sidebarDict = dict as Parameters<typeof AppSidebar>[0]['dict'];
 
   return (
-    <div className="flex min-h-screen">
+    <div className="h-screen flex overflow-hidden">
       <AppSidebar locale={locale} user={user} dict={sidebarDict} />
-      <main className="flex-1 min-w-0 pb-20 md:pb-0">
-        <div className="max-w-[720px] mx-auto px-5 md:px-8 py-8 md:py-10">
-          <SettingsContent dict={typedDict} locale={locale} />
+      <main className="flex-1 flex flex-col min-h-0">
+        <div className="shrink-0 px-6 md:px-8 pt-6">
+          <AppTopBar user={user} />
+        </div>
+        <div className="flex-1 overflow-y-auto pb-20 md:pb-0">
+          <div className="max-w-[640px] mx-auto px-5 md:px-8 py-8 md:py-10">
+            <SettingsContent dict={typedDict} locale={locale} />
+          </div>
         </div>
       </main>
     </div>

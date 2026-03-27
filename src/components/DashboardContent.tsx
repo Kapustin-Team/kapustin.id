@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { apiGet, apiPost } from '@/lib/api';
+import { apiGet } from '@/lib/api';
 import { ProfileForm } from '@/components/ProfileForm';
 import { ProjectCard } from '@/components/ProjectCard';
 import { projects } from '@/lib/projects';
 import { AppSidebar } from '@/components/AppSidebar';
+import { AppTopBar } from '@/components/AppTopBar';
 import { Spinner } from '@/components/ui/Spinner';
 
 interface User {
@@ -43,30 +43,6 @@ interface DashboardContentProps {
     };
   };
   locale: string;
-}
-
-function UserAvatar({ user }: { user: User }) {
-  if (user.image) {
-    return (
-      <Image
-        src={user.image}
-        alt={user.name || user.email}
-        width={56}
-        height={56}
-        className="w-14 h-14 rounded-full object-cover border-2 border-[var(--border-color)]"
-      />
-    );
-  }
-
-  const initials = user.name
-    ? user.name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
-    : user.email[0].toUpperCase();
-
-  return (
-    <div className="w-14 h-14 rounded-full bg-[var(--fg)] text-white flex items-center justify-center text-[18px] font-semibold tracking-[-0.3px]">
-      {initials}
-    </div>
-  );
 }
 
 export function DashboardContent({ dict, locale }: DashboardContentProps) {
@@ -124,39 +100,47 @@ export function DashboardContent({ dict, locale }: DashboardContentProps) {
   }));
 
   return (
-    <div className="flex min-h-screen">
+    <div className="h-screen flex overflow-hidden">
+      {/* Sidebar */}
       <AppSidebar locale={locale} user={user} dict={dict} />
-      <main className="flex-1 min-w-0 pb-20 md:pb-0">
-        <div className="max-w-[720px] mx-auto px-5 md:px-8 py-8 md:py-10">
-          {/* Header: Avatar + Greeting */}
-          <div className="flex items-center gap-4 mb-8">
-            <UserAvatar user={user} />
-            <div>
+
+      {/* Main content */}
+      <main className="flex-1 flex flex-col min-h-0">
+        {/* Top Bar */}
+        <div className="shrink-0 px-6 md:px-8 pt-6">
+          <AppTopBar user={user} />
+        </div>
+
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto pb-20 md:pb-0">
+          <div className="max-w-[640px] mx-auto px-5 md:px-8 py-8 md:py-10">
+            {/* Welcome */}
+            <div className="mb-8">
               <h1 className="text-[20px] font-semibold tracking-[-0.4px] text-[var(--fg)]">
                 {dict.home.welcome}, {user.name || user.email}
               </h1>
-              <p className="text-[13px] text-[var(--fg-secondary)] tracking-[-0.25px]">
+              <p className="text-[13px] text-[var(--fg-secondary)] tracking-[-0.25px] mt-1">
                 {dict.home.loggedInAs} {user.email}
               </p>
             </div>
+
+            {/* Profile Section */}
+            <section className="p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] mb-8">
+              <ProfileForm user={user} dict={dict.profile} onUpdate={setUser} />
+            </section>
+
+            {/* Projects Section */}
+            <section className="flex flex-col gap-4">
+              <h2 className="text-[15px] font-semibold tracking-[-0.3px] text-[var(--fg)]">
+                {dict.dashboard.projects}
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {projectCards.map((p) => (
+                  <ProjectCard key={p.name} project={p} />
+                ))}
+              </div>
+            </section>
           </div>
-
-          {/* Profile Section */}
-          <section className="p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] mb-8">
-            <ProfileForm user={user} dict={dict.profile} onUpdate={setUser} />
-          </section>
-
-          {/* Projects Section */}
-          <section className="flex flex-col gap-4">
-            <h2 className="text-[15px] font-semibold tracking-[-0.3px] text-[var(--fg)]">
-              {dict.dashboard.projects}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {projectCards.map((p) => (
-                <ProjectCard key={p.name} project={p} />
-              ))}
-            </div>
-          </section>
         </div>
       </main>
     </div>
