@@ -48,11 +48,28 @@ export function LoginForm({ dict, locale }: LoginFormProps) {
   const searchParams = useSearchParams();
   const rawReturnTo = searchParams.get('returnTo');
 
-  // Guard against open redirect — only allow relative paths on this origin
+  // Guard against open redirect.
+  // Allow: relative paths on this origin (/ru/...) OR absolute URLs to trusted Kapustin domains.
   function sanitizeReturnTo(url: string | null, fallback: string): string {
     if (!url) return fallback;
-    // Must start with / but not // (protocol-relative = open redirect)
+    // Relative path — must start with / but not // (protocol-relative)
     if (url.startsWith('/') && !url.startsWith('//')) return url;
+    // Absolute URL — allow trusted origins only
+    try {
+      const parsed = new URL(url);
+      const trustedOrigins = [
+        // localhost dev ports
+        'http://localhost:3100', 'http://localhost:3200', 'http://localhost:3003',
+        'http://localhost:3004', 'http://localhost:3005',
+        // Production domains
+        'https://kapustin.design', 'https://kapustin.cc',
+        'https://kapustin.team', 'https://aiacade.me',
+        'https://mediatower.me',
+      ];
+      if (trustedOrigins.some((o) => parsed.origin === o)) return url;
+    } catch {
+      // invalid URL — fall through
+    }
     return fallback;
   }
 
